@@ -1,0 +1,131 @@
+import java.time.Duration;
+import java.time.Instant;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Random;
+import java.util.Set;
+
+public class TSPSimulatedAnnealing {
+
+    //private static long SEED;
+    private Random rand;
+
+    public City[] simulatedAnnealing(City[] tour, double temp, double alpha, Random random) {
+        City[] current = tour;
+        City[] best = current;
+        rand = random;
+
+        int bestL = main.getDistance(best);
+        int currentL;
+        int candidateL;
+        int delta;
+
+        Instant start = Instant.now();
+        Duration max = Duration.ofMinutes(3);
+
+        while (start.plus(max).isAfter(Instant.now())) {
+            for (int i = 0; i < 100; i++) {
+
+                City[] next = doubleBridge(current);
+                City[] candidate = TSP2Opt.twoOpt(next);
+
+                currentL = main.getDistance(current);
+                candidateL = main.getDistance(candidate);
+                delta = candidateL - currentL;
+
+                if (delta < 0) {
+                    current = candidate;
+                    currentL = candidateL;
+                    if (currentL < bestL)
+                        best = current.clone();
+                        bestL = currentL;
+
+                //} else if (rand.nextDouble() < (Math.pow(Math.E,(-((double)delta)/temp)))) {
+                } else if (rand.nextDouble() < getProbability(candidate, current, temp)) {
+                    current = candidate.clone();
+                }
+
+            }
+            temp *= alpha;
+        }
+        System.out.println("Passati 3 min, fine simulated");
+        return best;
+    }
+
+    private double getProbability(City[] candidate, City[] current, double temp) {
+        double delta =  (double) (main.getDistance(candidate) - main.getDistance(current));
+        double x = Math.exp(-delta/temp);
+        return x;
+    }
+
+
+    private City[] doubleBridge(City[] tour) {
+
+        int[] randPos = new int[4];
+
+        do {
+            for (int i = 0; i < randPos.length; i++)
+                randPos[i] = rand.nextInt(tour.length);
+        } while (hasDuplicate(randPos));
+
+        Arrays.sort(randPos);
+        int a = randPos[0];
+        int b = randPos[1];
+        int c = randPos[2];
+        int d = randPos[3];
+
+        int index = 0;
+        City[] doubleBridge = tour.clone();
+
+        for (int i = 0; i <= a; i++) {
+            doubleBridge[index] = tour[i];
+            index++;
+        }
+
+        for (int i = c+1; i <= d; i++) {
+            doubleBridge[index] = tour[i];
+            index++;
+        }
+
+        for (int i = b+1; i <= c; i++) {
+            doubleBridge[index] = tour[i];
+            index++;
+        }
+
+        for (int i = a+1; i <= b; i++) {
+            doubleBridge[index] = tour[i];
+            index++;
+        }
+
+        for (int i = d+1; i < tour.length; i++) {
+            doubleBridge[index] = tour[i];
+            index++;
+        }
+
+        //System.out.println("Index: " + index);
+        //System.out.println("Length: " + (doubleBridge.length));
+        //System.out.println(hasDuplicateCities(doubleBridge));
+        return doubleBridge;
+    }
+
+    public boolean hasDuplicate(int[] items) {
+        Set<Integer> appeared = new HashSet<>();
+        for (int item : items) {
+            if (!appeared.add(item)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean hasDuplicateCities(City[] items) {
+        Set<City> appeared = new HashSet<>();
+        for (City city : items) {
+            if (!appeared.add(city)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+}
