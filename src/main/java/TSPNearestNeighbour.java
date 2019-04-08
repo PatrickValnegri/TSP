@@ -29,7 +29,7 @@ public class TSPNearestNeighbour {
         int count = 0;
         int totCost = 0;
 
-        System.out.println("Prima città: " + cities.get(randomAccess).getId() + "\t");
+        System.out.println("First city: " + cities.get(randomAccess).getId() + "\t");
 
         //Finchè non visito tutte le città
         while (count < numberOfNodes) {
