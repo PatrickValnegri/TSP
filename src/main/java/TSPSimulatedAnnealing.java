@@ -15,13 +15,13 @@ public class TSPSimulatedAnnealing {
         City[] best = current;
         rand = random;
 
-        int bestL = main.getDistance(best);
+        int bestL = Utilities.getTotalDistance(best);
         int currentL;
         int candidateL;
         int delta;
 
         Instant start = Instant.now();
-        Duration max = Duration.ofMinutes(3);
+        Duration max = Duration.ofSeconds(174);
 
         while (start.plus(max).isAfter(Instant.now())) {
             for (int i = 0; i < 100; i++) {
@@ -29,8 +29,8 @@ public class TSPSimulatedAnnealing {
                 City[] next = doubleBridge(current);
                 City[] candidate = TSP2Opt.twoOpt(next);
 
-                currentL = main.getDistance(current);
-                candidateL = main.getDistance(candidate);
+                currentL = Utilities.getTotalDistance(current);
+                candidateL = Utilities.getTotalDistance(candidate);
                 delta = candidateL - currentL;
 
                 if (delta < 0) {
@@ -53,7 +53,7 @@ public class TSPSimulatedAnnealing {
     }
 
     private double getProbability(City[] candidate, City[] current, double temp) {
-        double delta =  (double) (main.getDistance(candidate) - main.getDistance(current));
+        double delta =  (double) (Utilities.getTotalDistance(candidate) - Utilities.getTotalDistance(current));
         double x = Math.exp(-delta/temp);
         return x;
     }
@@ -109,7 +109,7 @@ public class TSPSimulatedAnnealing {
     }
 
     public boolean hasDuplicate(int[] items) {
-        Set<Integer> appeared = new HashSet<>();
+        Set<Integer> appeared = new HashSet<Integer>();
         for (int item : items) {
             if (!appeared.add(item)) {
                 return true;
@@ -119,7 +119,7 @@ public class TSPSimulatedAnnealing {
     }
 
     public boolean hasDuplicateCities(City[] items) {
-        Set<City> appeared = new HashSet<>();
+        Set<City> appeared = new HashSet<City>();
         for (City city : items) {
             if (!appeared.add(city)) {
                 return true;

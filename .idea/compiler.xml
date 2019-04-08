@@ -9,8 +9,8 @@
         <module name="TSP" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
-      <module name="TSP" target="1.8" />
+    <bytecodeTargetLevel>
+      <module name="TSP" target="8" />
     </bytecodeTargetLevel>
   </component>
 </project>

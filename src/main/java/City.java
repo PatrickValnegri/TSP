@@ -11,6 +11,7 @@ public class City {
         this.isVisited = false;
     }
 
+
     public int getDistanceCity(City city) {
         double x2 = city.getLatitude();
         double x1 = this.getLatitude();
@@ -20,6 +21,7 @@ public class City {
 
         return (int) (0.5 + (Math.sqrt((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)))));
     }
+
 
     public double getLatitude() {
         return latitude;

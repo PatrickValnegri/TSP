@@ -1,5 +1,4 @@
 import java.util.ArrayList;
-import java.util.Random;
 
 public class TSPNearestNeighbour {
 
@@ -11,25 +10,22 @@ public class TSPNearestNeighbour {
         City nn[] = new City[cities.size()];
         int k = 0;
 
-        //Parto da un città a caso
-        Random random = new Random();
-        //int randomAccess = random.nextInt(numberOfNodes);
-        int randomAccess = 0;
-        int firstCity = randomAccess;
+        //Parto da una città
+        int firstCity = 0;
 
         //la setto come visitata
-        cities.get(randomAccess).setVisited(true);
-        nn[k] = cities.get(randomAccess);
+        cities.get(firstCity).setVisited(true);
+        nn[k] = cities.get(firstCity);
         k++;
 
-        int nextCity = randomAccess;
+        int nextCity = firstCity;
         int element;
         int min;
         boolean minFlag = false;
         int count = 0;
         int totCost = 0;
 
-        System.out.println("Prima città: " + cities.get(randomAccess).getId() + "\t");
+        System.out.println("First city: " + cities.get(firstCity).getId() + "\t");
 
         //Finchè non visito tutte le città
         while (count < numberOfNodes) {

@@ -9,8 +9,11 @@ public class TSP2Opt {
         int a = i == 0 ? tour.length - 1 : i - 1;
         int b = j == tour.length -1 ? 0 : j + 1;
 
-        int dist1 = (tour[i].getDistanceCity(tour[a]) + tour[j].getDistanceCity(tour[b]));
-        int dist2 = (tour[a].getDistanceCity(tour[j]) + tour[i].getDistanceCity(tour[b]));
+        int dist1 = (Utilities.getDistanceBetweenCities(tour[i], tour[a]) + Utilities.getDistanceBetweenCities(tour[j], tour[b]));
+        int dist2 = (Utilities.getDistanceBetweenCities(tour[a], tour[j]) + Utilities.getDistanceBetweenCities(tour[i], tour[b]));
+
+        //int dist1 = (tour[i].getDistanceCity(tour[a]) + tour[j].getDistanceCity(tour[b]));
+        //int dist2 = (tour[a].getDistanceCity(tour[j]) + tour[i].getDistanceCity(tour[b]));
 
         return dist2 - dist1;
     }
@@ -25,6 +28,8 @@ public class TSP2Opt {
 
         City[] bestTour = tour;
 
+        int count = 0;
+
         while (bestGain < 0) {
             bestGain = 0;
 
@@ -38,6 +43,7 @@ public class TSP2Opt {
                         best_j = j;
                     }
                 }
+                count++;
             }
             if (bestGain < 0) {
                 bestTour = swap(bestTour, best_i, best_j);
@@ -45,6 +51,7 @@ public class TSP2Opt {
         }
 
         //System.out.println(hasDuplicateCities(bestTour));
+        //System.out.println("Contatore cicli: " + count);
         return bestTour;
     }
 
@@ -63,7 +70,7 @@ public class TSP2Opt {
     }
 
     public static boolean hasDuplicateCities(City[] items) {
-        Set<City> appeared = new HashSet<>();
+        Set<City> appeared = new HashSet<City>();
         for (City city : items) {
             if (!appeared.add(city)) {
                 return true;
