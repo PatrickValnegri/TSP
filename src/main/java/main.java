@@ -48,15 +48,16 @@ public class main {
             System.out.println("Best distance after 2opt: " + Utilities.getTotalDistance(twoOptTour));
             System.out.println("Error: " + Utilities.getError(Utilities.getTotalDistance(twoOptTour)) + "%");
 
-            while (cont < 1) {
+            while (cont < 2) {
 
-                SEED = System.currentTimeMillis();
-                //SEED = 1554557290533l;
+                //SEED = System.currentTimeMillis();
+                SEED = 1554557290533L;
                 Random rand = new Random(SEED);
 
-                temperature = rand.nextInt(150 - 100 + 1) + 100;
-                alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
-
+                //temperature = rand.nextInt(150 - 100 + 1) + 100;
+                //alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
+                temperature = 138;
+                alpha = 0.997786;
 
                 City[] simulatedAnnealingTour = tspSimulatedAnnealing.simulatedAnnealing(twoOptTour, temperature, alpha, rand);
                 System.out.println("Best distance after simulated annealing: " + Utilities.getTotalDistance(simulatedAnnealingTour));

@@ -12,6 +12,9 @@ public class TSP2Opt {
         int dist1 = (Utilities.getDistanceBetweenCities(tour[i], tour[a]) + Utilities.getDistanceBetweenCities(tour[j], tour[b]));
         int dist2 = (Utilities.getDistanceBetweenCities(tour[a], tour[j]) + Utilities.getDistanceBetweenCities(tour[i], tour[b]));
 
+        //int dist1 = (tour[i].getDistanceCity(tour[a]) + tour[j].getDistanceCity(tour[b]));
+        //int dist2 = (tour[a].getDistanceCity(tour[j]) + tour[i].getDistanceCity(tour[b]));
+
         return dist2 - dist1;
     }
 

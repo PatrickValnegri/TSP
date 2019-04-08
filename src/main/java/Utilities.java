@@ -43,9 +43,11 @@ public class Utilities {
                 destination = cities[0];
             }
             distance += getDistanceBetweenCities(starting, destination);
+            //distance += starting.getDistanceCity(destination);
         }
         return distance;
     }
+
 
     public static int getDistanceBetweenCities(City a, City b) {
         int[][] distances = main.getDistances();
