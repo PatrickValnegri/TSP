@@ -1,18 +1,19 @@
-import java.util.ArrayList;
+import java.util.Objects;
+import java.util.TreeSet;
 
-public class City {
+public class City implements Comparable<City>{
     private int id;
     private double latitude;
     private double longitude;
     private boolean isVisited;
-    private ArrayList<City> candidateList;
+    private TreeSet<City> candidateList;
 
     public City(int id, double latitude, double longitude) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.isVisited = false;
-        candidateList = new ArrayList<>();
+        candidateList = new TreeSet<>();
     }
 
     public City() {
@@ -61,11 +62,20 @@ public class City {
         isVisited = visited;
     }
 
-    public ArrayList<City> getCandidateList() {
+    public TreeSet<City> getCandidateList() {
         return candidateList;
     }
 
     public void addCandidate(City city) {
         this.candidateList.add(city);
+    }
+
+
+    @Override
+    public int compareTo(City o) {
+        if (this.id == o.id)
+            return 0;
+
+        return 1;
     }
 }

@@ -1,5 +1,4 @@
 public class Utilities {
-
     final static String file1 = "ch130.tsp"; //0.0
     final static String file2 = "d198.tsp"; //0.0
     final static String file3 = "eil76.tsp"; //0.0
@@ -22,9 +21,8 @@ public class Utilities {
     final static int best9 = 8806;
     final static int best10 = 224094;
 
-    final static String fileUsed = file1;
-    final static int bestUsed = best1;
-
+    final static String fileUsed = file3;
+    final static int bestUsed = best3;
 
     public static double getError(int approx) {
         double sub = approx - bestUsed;
@@ -50,8 +48,8 @@ public class Utilities {
 
 
     public static int getDistanceBetweenCities(City a, City b) {
-        int[][] distances = main.getDistances();
-        return distances[a.getId()][b.getId()];
+        Distance[][] distances = main.getDistances();
+        return distances[a.getId()][b.getId()].getDistance();
     }
 
 }

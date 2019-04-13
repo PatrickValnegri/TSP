@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class TSPMinimumSpanningTree {
 
-    private int[][] distances;
+    private Distance[][] distances;
     private City[] cities;
 
     public TSPMinimumSpanningTree(City[] cities) {
@@ -61,7 +61,7 @@ public class TSPMinimumSpanningTree {
         Solution sol = new Solution();
 
         for (int i = 0; i < len; i++) {
-            tmp = distances[city.getId()][i];
+            tmp = distances[city.getId()][i].getDistance();
 
             if (tmp < min && cities[i].isVisited() == false) {
                 min = tmp;

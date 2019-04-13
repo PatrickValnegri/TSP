@@ -4,7 +4,7 @@ public class TSPNearestNeighbour {
 
     private int numberOfNodes;
 
-    public City[] nearestNeighbor(int distances[][], ArrayList<City> cities) {
+    public City[] nearestNeighbor(Distance distances[][], ArrayList<City> cities) {
         //numero di città da visitare
         numberOfNodes = cities.size();
         City nn[] = new City[cities.size()];
@@ -42,8 +42,8 @@ public class TSPNearestNeighbour {
                 if (i != element && !cities.get(i).isVisited()) {
 
                     //se la distanza minima è maggiore della distanza con l'attuale città la setto come nuova minima
-                    if (min > distances[element][i]) {
-                        min = distances[element][i];
+                    if (min > distances[element][i].getDistance()) {
+                        min = distances[element][i].getDistance();
 
                         //prossima città da visitare
                         nextCity = i;
@@ -70,7 +70,7 @@ public class TSPNearestNeighbour {
             count++;
         }
         //sommo ultima città con quella di partenza per chiudere il cerchio
-        totCost += distances[nextCity][firstCity];
+        totCost += distances[nextCity][firstCity].getDistance();
         for (City c:cities) {
             c.setVisited(false);
         }

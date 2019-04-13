@@ -9,9 +9,9 @@ public class main {
     private static final String FILENAME = "C:\\Users\\pvaln\\OneDrive\\Documenti\\SUPSI\\TerzoAnno\\SecondoSemestre\\Algoritmi\\Coppa\\risultati.txt";
 
     //Distances between cities //TODO spostare nella classe utilities
-    public static int[][] distances;
+    public static Distance[][] distances;
 
-    public static int[][] getDistances() {
+    public static Distance[][] getDistances() {
         return distances;
     }
 
@@ -32,7 +32,6 @@ public class main {
             cityArray = cities.toArray(cityArray);
 
 
-
             //TSP nearest neighbor
             TSPNearestNeighbour tspNearestNeighbour = new TSPNearestNeighbour();
 
@@ -40,10 +39,14 @@ public class main {
             TSP2Opt tsp2Opt = new TSP2Opt();
 
             //Matrix[][] of distances
-            distances = TSPMatrixDistances.getMatrixDistances(cities);
+            distances = TSPMatrixDistances.getMatrixDistances(cityArray);
 
             TSPMinimumSpanningTree tspMinimumSpanningTree = new TSPMinimumSpanningTree(cityArray);
             tspMinimumSpanningTree.MST();
+
+            //Candidate list nearest cities
+            TSPCandidateList tspCandidateList = new TSPCandidateList(cityArray);
+            tspCandidateList.nearestCities();
 
             //TSP simlated annealing
             TSPSimulatedAnnealing tspSimulatedAnnealing = new TSPSimulatedAnnealing();
