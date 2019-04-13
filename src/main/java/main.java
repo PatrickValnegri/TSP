@@ -26,14 +26,26 @@ public class main {
         cities = tspReader.readFile(classloader.getResourceAsStream(Utilities.fileUsed));
 
         if (cities != null) {
+            //TSP Minimum Spanning tree
+            //TODO cambiare arraylist di città in un array
+            City[] cityArray = new City[cities.size()];
+            cityArray = cities.toArray(cityArray);
+
+
+
             //TSP nearest neighbor
             TSPNearestNeighbour tspNearestNeighbour = new TSPNearestNeighbour();
 
             //2 opt
             TSP2Opt tsp2Opt = new TSP2Opt();
 
+            //Matrix[][] of distances
             distances = TSPMatrixDistances.getMatrixDistances(cities);
 
+            TSPMinimumSpanningTree tspMinimumSpanningTree = new TSPMinimumSpanningTree(cityArray);
+            tspMinimumSpanningTree.MST();
+
+            //TSP simlated annealing
             TSPSimulatedAnnealing tspSimulatedAnnealing = new TSPSimulatedAnnealing();
             long SEED;
             int cont = 0;
@@ -51,13 +63,13 @@ public class main {
             while (cont < 2) {
 
                 //SEED = System.currentTimeMillis();
-                SEED = 1554557290533L;
+                SEED = 1554791770434L;
                 Random rand = new Random(SEED);
 
                 //temperature = rand.nextInt(150 - 100 + 1) + 100;
                 //alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
-                temperature = 138;
-                alpha = 0.997786;
+                temperature = 122;
+                alpha = 0.931877;
 
                 City[] simulatedAnnealingTour = tspSimulatedAnnealing.simulatedAnnealing(twoOptTour, temperature, alpha, rand);
                 System.out.println("Best distance after simulated annealing: " + Utilities.getTotalDistance(simulatedAnnealingTour));

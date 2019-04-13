@@ -22,8 +22,8 @@ public class Utilities {
     final static int best9 = 8806;
     final static int best10 = 224094;
 
-    final static String fileUsed = file10;
-    final static int bestUsed = best10;
+    final static String fileUsed = file1;
+    final static int bestUsed = best1;
 
 
     public static double getError(int approx) {
@@ -53,8 +53,5 @@ public class Utilities {
         int[][] distances = main.getDistances();
         return distances[a.getId()][b.getId()];
     }
-
-
-
 
 }

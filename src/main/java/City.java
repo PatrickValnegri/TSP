@@ -1,16 +1,22 @@
+import java.util.ArrayList;
+
 public class City {
     private int id;
     private double latitude;
     private double longitude;
     private boolean isVisited;
+    private ArrayList<City> candidateList;
 
     public City(int id, double latitude, double longitude) {
         this.id = id;
         this.latitude = latitude;
         this.longitude = longitude;
         this.isVisited = false;
+        candidateList = new ArrayList<>();
     }
 
+    public City() {
+    }
 
     public int getDistanceCity(City city) {
         double x2 = city.getLatitude();
@@ -53,5 +59,13 @@ public class City {
 
     public void setVisited(boolean visited) {
         isVisited = visited;
+    }
+
+    public ArrayList<City> getCandidateList() {
+        return candidateList;
+    }
+
+    public void addCandidate(City city) {
+        this.candidateList.add(city);
     }
 }
