@@ -1,10 +1,14 @@
+package TSP.utility;
+
+import TSP.models.City;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 
-public class TSPReader {
+public class FileReader {
 
     private static int id = 0;
 
@@ -29,7 +33,7 @@ public class TSPReader {
                     return cities;
 
                 if (parts.length == 3 && parts[0].matches("^[0-9]*$")) {
-                    //System.out.println("City number: " + parts[0] + " lat: " + parts[1] + " long: " + parts[2]);
+                    //System.out.println("TSP.models.City number: " + parts[0] + " lat: " + parts[1] + " long: " + parts[2]);
                     cities.add(new City(id, Double.parseDouble(parts[1]), Double.parseDouble(parts[2])));
                     id++;
                 }

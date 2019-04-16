@@ -1,4 +1,5 @@
-import java.util.Objects;
+package TSP.models;
+
 import java.util.TreeSet;
 
 public class City implements Comparable<City>{
@@ -28,7 +29,6 @@ public class City implements Comparable<City>{
 
         return (int) (0.5 + (Math.sqrt((Math.pow(x2 - x1, 2) + Math.pow(y2 - y1, 2)))));
     }
-
 
     public double getLatitude() {
         return latitude;
@@ -69,7 +69,6 @@ public class City implements Comparable<City>{
     public void addCandidate(City city) {
         this.candidateList.add(city);
     }
-
 
     @Override
     public int compareTo(City o) {

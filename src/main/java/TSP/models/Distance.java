@@ -1,4 +1,6 @@
-class Distance implements Comparable<Distance>{
+package TSP.models;
+
+public class Distance implements Comparable<Distance>{
     private int distance;
     private City city;
 

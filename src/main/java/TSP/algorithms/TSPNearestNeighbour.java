@@ -1,3 +1,8 @@
+package TSP.algorithms;
+
+import TSP.models.City;
+import TSP.models.Distance;
+
 import java.util.ArrayList;
 
 public class TSPNearestNeighbour {

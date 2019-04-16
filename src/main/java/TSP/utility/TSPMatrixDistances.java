@@ -1,4 +1,7 @@
-import java.util.ArrayList;
+package TSP.utility;
+
+import TSP.models.City;
+import TSP.models.Distance;
 
 public class TSPMatrixDistances {
 

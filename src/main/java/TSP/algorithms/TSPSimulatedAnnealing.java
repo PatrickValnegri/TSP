@@ -1,3 +1,9 @@
+package TSP.algorithms;
+
+import TSP.models.City;
+import TSP.optimizators.TSP2Opt;
+import TSP.utility.Utilities;
+
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;

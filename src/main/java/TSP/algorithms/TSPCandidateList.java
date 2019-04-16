@@ -1,3 +1,9 @@
+package TSP.algorithms;
+
+import TSP.main;
+import TSP.models.City;
+import TSP.models.Distance;
+
 import java.util.Arrays;
 
 public class TSPCandidateList {

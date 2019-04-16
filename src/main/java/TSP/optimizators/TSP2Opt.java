@@ -1,3 +1,8 @@
+package TSP.optimizators;
+
+import TSP.models.City;
+import TSP.utility.Utilities;
+
 import java.util.HashSet;
 import java.util.Set;
 

@@ -1,3 +1,9 @@
+package TSP.utility;
+
+import TSP.models.Distance;
+import TSP.main;
+import TSP.models.City;
+
 public class Utilities {
     final static String file1 = "ch130.tsp"; //0.0
     final static String file2 = "d198.tsp"; //0.0
@@ -21,8 +27,8 @@ public class Utilities {
     final static int best9 = 8806;
     final static int best10 = 224094;
 
-    final static String fileUsed = file3;
-    final static int bestUsed = best3;
+    public final static String fileUsed = file9;
+    public final static int bestUsed = best9;
 
     public static double getError(int approx) {
         double sub = approx - bestUsed;

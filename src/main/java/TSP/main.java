@@ -1,7 +1,21 @@
+package TSP;
+
+import TSP.algorithms.TSPCandidateList;
+import TSP.algorithms.TSPMinimumSpanningTree;
+import TSP.algorithms.TSPNearestNeighbour;
+import TSP.algorithms.TSPSimulatedAnnealing;
+import TSP.models.City;
+import TSP.models.Distance;
+import TSP.optimizators.TSP2Opt;
+import TSP.utility.FileReader;
+import TSP.utility.TSPMatrixDistances;
+import TSP.utility.Utilities;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Random;
 
 public class main {
@@ -21,9 +35,9 @@ public class main {
         ArrayList<City> cities;
 
         //TSP reader
-        TSPReader tspReader = new TSPReader();
+        FileReader fileReader = new FileReader();
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        cities = tspReader.readFile(classloader.getResourceAsStream(Utilities.fileUsed));
+        cities = fileReader.readFile(classloader.getResourceAsStream(Utilities.fileUsed));
 
         if (cities != null) {
             //TSP Minimum Spanning tree
@@ -47,6 +61,12 @@ public class main {
             //Candidate list nearest cities
             TSPCandidateList tspCandidateList = new TSPCandidateList(cityArray);
             tspCandidateList.nearestCities();
+
+            //Distances inside a candidate list
+            Iterator<City> itr = cityArray[0].getCandidateList().iterator();
+            while (itr.hasNext()) {
+                System.out.print(distances[cityArray[0].getId()][itr.next().getId()].getDistance() + " ");
+            }
 
             //TSP simlated annealing
             TSPSimulatedAnnealing tspSimulatedAnnealing = new TSPSimulatedAnnealing();
