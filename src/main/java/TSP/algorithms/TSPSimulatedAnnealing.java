@@ -1,5 +1,6 @@
 package TSP.algorithms;
 
+import TSP.main;
 import TSP.models.City;
 import TSP.optimizators.TSP2Opt;
 import TSP.utility.Utilities;
@@ -16,8 +17,8 @@ public class TSPSimulatedAnnealing {
     //private static long SEED;
     private Random rand;
 
-    public City[] simulatedAnnealing(City[] tour, double temp, double alpha, Random random) {
-        City[] current = tour;
+    public City[] simulatedAnnealing(City[] cities, double temp, double alpha, Random random) {
+        City[] current = cities;
         City[] best = current;
         rand = random;
 
@@ -27,11 +28,14 @@ public class TSPSimulatedAnnealing {
         int delta;
 
         Instant start = Instant.now();
-        Duration max = Duration.ofSeconds(174);
+        Duration max = Duration.ofSeconds(170);
 
+        int a = 0;
         while (start.plus(max).isAfter(Instant.now())) {
-            for (int i = 0; i < 100; i++) {
 
+            for (int i = 0; i < 100; i++) {
+                int[] distanceBackup = main.positions.clone();
+                a++;
                 City[] next = doubleBridge(current);
                 City[] candidate = TSP2Opt.twoOpt(next);
 
@@ -42,31 +46,34 @@ public class TSPSimulatedAnnealing {
                 if (delta < 0) {
                     current = candidate;
                     currentL = candidateL;
+
                     if (currentL < bestL)
                         best = current.clone();
-                        bestL = currentL;
+                    bestL = currentL;
 
-                //} else if (rand.nextDouble() < (Math.pow(Math.E,(-((double)delta)/temp)))) {
+                    //} else if (rand.nextDouble() < (Math.pow(Math.E,(-((double)delta)/temp)))) {
                 } else if (rand.nextDouble() < getProbability(candidate, current, temp)) {
                     current = candidate.clone();
+                } else {
+                    //lo scambio del 2opt e doublebridge non ha portato guadagni ripristino posizioni
+                    main.setPositions(distanceBackup);
                 }
 
             }
             temp *= alpha;
         }
         System.out.println("Passati 3 min, fine simulated");
+        System.out.println("Cicli: " + a);
         return best;
     }
 
     private double getProbability(City[] candidate, City[] current, double temp) {
-        double delta =  (double) (Utilities.getTotalDistance(candidate) - Utilities.getTotalDistance(current));
-        double x = Math.exp(-delta/temp);
+        double delta = (double) (Utilities.getTotalDistance(candidate) - Utilities.getTotalDistance(current));
+        double x = Math.exp(-delta / temp);
         return x;
     }
 
-
     private City[] doubleBridge(City[] tour) {
-
         int[] randPos = new int[4];
 
         do {
@@ -85,32 +92,38 @@ public class TSPSimulatedAnnealing {
 
         for (int i = 0; i <= a; i++) {
             doubleBridge[index] = tour[i];
+            main.positions[doubleBridge[index].getId()] = index;
             index++;
         }
 
-        for (int i = c+1; i <= d; i++) {
+        for (int i = c + 1; i <= d; i++) {
             doubleBridge[index] = tour[i];
+            main.positions[doubleBridge[index].getId()] = index;
             index++;
         }
 
-        for (int i = b+1; i <= c; i++) {
+        for (int i = b + 1; i <= c; i++) {
             doubleBridge[index] = tour[i];
+            main.positions[doubleBridge[index].getId()] = index;
             index++;
         }
 
-        for (int i = a+1; i <= b; i++) {
+        for (int i = a + 1; i <= b; i++) {
             doubleBridge[index] = tour[i];
+            main.positions[doubleBridge[index].getId()] = index;
             index++;
         }
 
-        for (int i = d+1; i < tour.length; i++) {
+        for (int i = d + 1; i < tour.length; i++) {
             doubleBridge[index] = tour[i];
+            main.positions[doubleBridge[index].getId()] = index;
             index++;
         }
 
         //System.out.println("Index: " + index);
         //System.out.println("Length: " + (doubleBridge.length));
         //System.out.println(hasDuplicateCities(doubleBridge));
+
         return doubleBridge;
     }
 

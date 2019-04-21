@@ -1,6 +1,5 @@
 package TSP.utility;
 
-import TSP.models.Distance;
 import TSP.main;
 import TSP.models.City;
 
@@ -27,8 +26,8 @@ public class Utilities {
     final static int best9 = 8806;
     final static int best10 = 224094;
 
-    public final static String fileUsed = file9;
-    public final static int bestUsed = best9;
+    public final static String fileUsed = file10;
+    public final static int bestUsed = best10;
 
     public static double getError(int approx) {
         double sub = approx - bestUsed;
@@ -54,8 +53,8 @@ public class Utilities {
 
 
     public static int getDistanceBetweenCities(City a, City b) {
-        Distance[][] distances = main.getDistances();
-        return distances[a.getId()][b.getId()].getDistance();
+        int[][] distances = main.getDistances();
+        return distances[a.getId()][b.getId()];
     }
 
 }

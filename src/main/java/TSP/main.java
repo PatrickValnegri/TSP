@@ -5,7 +5,6 @@ import TSP.algorithms.TSPMinimumSpanningTree;
 import TSP.algorithms.TSPNearestNeighbour;
 import TSP.algorithms.TSPSimulatedAnnealing;
 import TSP.models.City;
-import TSP.models.Distance;
 import TSP.optimizators.TSP2Opt;
 import TSP.utility.FileReader;
 import TSP.utility.TSPMatrixDistances;
@@ -22,15 +21,22 @@ public class main {
 
     private static final String FILENAME = "C:\\Users\\pvaln\\OneDrive\\Documenti\\SUPSI\\TerzoAnno\\SecondoSemestre\\Algoritmi\\Coppa\\risultati.txt";
 
-    //Distances between cities //TODO spostare nella classe utilities
-    public static Distance[][] distances;
-
-    public static Distance[][] getDistances() {
+    //Distances between cities
+    // TODO spostare nella classe utilities
+    public static int[][] distances;
+    public static int[][] getDistances() {
         return distances;
     }
 
-    public static void main(String[] args) {
+    public static int[] positions;
+    //public static int[] getPositions() {
+    //    return positions;
+    //}
+    public static void setPositions(int[] positions) {
+        main.positions = positions;
+    }
 
+    public static void main(String[] args) {
         //ArrayList with cities
         ArrayList<City> cities;
 
@@ -45,7 +51,6 @@ public class main {
             City[] cityArray = new City[cities.size()];
             cityArray = cities.toArray(cityArray);
 
-
             //TSP nearest neighbor
             TSPNearestNeighbour tspNearestNeighbour = new TSPNearestNeighbour();
 
@@ -55,18 +60,17 @@ public class main {
             //Matrix[][] of distances
             distances = TSPMatrixDistances.getMatrixDistances(cityArray);
 
+            //Array cities position support for 2opt
+            positions = new  int[cityArray.length];
+            for (int i = 0; i < cityArray.length; i++)
+                positions[cityArray[i].getId()] = i;
+
             TSPMinimumSpanningTree tspMinimumSpanningTree = new TSPMinimumSpanningTree(cityArray);
             tspMinimumSpanningTree.MST();
 
             //Candidate list nearest cities
             TSPCandidateList tspCandidateList = new TSPCandidateList(cityArray);
             tspCandidateList.nearestCities();
-
-            //Distances inside a candidate list
-            Iterator<City> itr = cityArray[0].getCandidateList().iterator();
-            while (itr.hasNext()) {
-                System.out.print(distances[cityArray[0].getId()][itr.next().getId()].getDistance() + " ");
-            }
 
             //TSP simlated annealing
             TSPSimulatedAnnealing tspSimulatedAnnealing = new TSPSimulatedAnnealing();
@@ -75,7 +79,7 @@ public class main {
             int temperature;
             double alpha;
 
-            City[] nearestNeighborTour = tspNearestNeighbour.nearestNeighbor(distances, cities);
+            City[] nearestNeighborTour = tspNearestNeighbour.nearestNeighbor(distances, cityArray);
             System.out.println("Best distance after nearest neighbor: " + Utilities.getTotalDistance(nearestNeighborTour));
             System.out.println("Error: " + Utilities.getError(Utilities.getTotalDistance(nearestNeighborTour)) + "%");
 
@@ -83,16 +87,17 @@ public class main {
             System.out.println("Best distance after 2opt: " + Utilities.getTotalDistance(twoOptTour));
             System.out.println("Error: " + Utilities.getError(Utilities.getTotalDistance(twoOptTour)) + "%");
 
-            while (cont < 2) {
 
-                //SEED = System.currentTimeMillis();
-                SEED = 1554791770434L;
+            while (cont < 3) {
+
+                SEED = System.currentTimeMillis();
+                //SEED = 1554791770434L;
                 Random rand = new Random(SEED);
 
-                //temperature = rand.nextInt(150 - 100 + 1) + 100;
-                //alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
-                temperature = 122;
-                alpha = 0.931877;
+                temperature = rand.nextInt(150 - 100 + 1) + 100;
+                alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
+                //temperature = 122;
+                //alpha = 0.931877;
 
                 City[] simulatedAnnealingTour = tspSimulatedAnnealing.simulatedAnnealing(twoOptTour, temperature, alpha, rand);
                 System.out.println("Best distance after simulated annealing: " + Utilities.getTotalDistance(simulatedAnnealingTour));

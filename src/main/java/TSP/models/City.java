@@ -7,7 +7,9 @@ public class City implements Comparable<City>{
     private double latitude;
     private double longitude;
     private boolean isVisited;
-    private TreeSet<City> candidateList;
+
+    //private TreeSet<City> candidateList; //set with cities
+    private TreeSet<Integer> candidateList; // set with id cities
 
     public City(int id, double latitude, double longitude) {
         this.id = id;
@@ -62,12 +64,12 @@ public class City implements Comparable<City>{
         isVisited = visited;
     }
 
-    public TreeSet<City> getCandidateList() {
+    public TreeSet<Integer> getCandidateList() {
         return candidateList;
     }
 
-    public void addCandidate(City city) {
-        this.candidateList.add(city);
+    public void addCandidate(int candidate) {
+        this.candidateList.add(candidate);
     }
 
     @Override

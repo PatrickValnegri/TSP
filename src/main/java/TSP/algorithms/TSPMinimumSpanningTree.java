@@ -2,13 +2,12 @@ package TSP.algorithms;
 
 import TSP.main;
 import TSP.models.City;
-import TSP.models.Distance;
 
 import java.util.ArrayList;
 
 public class TSPMinimumSpanningTree {
 
-    private Distance[][] distances;
+    private int[][] distances;
     private City[] cities;
 
     public TSPMinimumSpanningTree(City[] cities) {
@@ -49,8 +48,10 @@ public class TSPMinimumSpanningTree {
                 }
             }
 
-            node.addCandidate(nearest);
-            nearest.addCandidate(node);
+            //node.addCandidate(nearest);
+            //nearest.addCandidate(node);
+            node.addCandidate(nearest.getId());
+            nearest.addCandidate(node.getId());
             tree.add(nearest);
             cities[nearest.getId()].setVisited(true);
         }
@@ -67,7 +68,7 @@ public class TSPMinimumSpanningTree {
         Solution sol = new Solution();
 
         for (int i = 0; i < len; i++) {
-            tmp = distances[city.getId()][i].getDistance();
+            tmp = distances[city.getId()][i];
 
             if (tmp < min && cities[i].isVisited() == false) {
                 min = tmp;
