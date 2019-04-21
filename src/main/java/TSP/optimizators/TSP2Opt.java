@@ -62,12 +62,6 @@ public class TSP2Opt {
         }
 
         //System.out.println(hasDuplicateCities(bestTour));
-        //System.out.println("Contatore cicli: " + count);
-
-        //Aggiorno posizioni città dopo 2opt
-        //for (int i = 0; i < cities.length; i++)
-        //    main.getPositions()[bestTour[i].getId()] = i;
-
         return bestTour;
     }
 

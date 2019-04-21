@@ -29,6 +29,8 @@ public class Utilities {
     public final static String fileUsed = file10;
     public final static int bestUsed = best10;
 
+    public static final String FILENAME = "C:\\Users\\pvaln\\OneDrive\\Documenti\\SUPSI\\TerzoAnno\\SecondoSemestre\\Algoritmi\\Coppa\\risultati.txt";
+
     public static double getError(int approx) {
         double sub = approx - bestUsed;
         double div = sub / bestUsed;

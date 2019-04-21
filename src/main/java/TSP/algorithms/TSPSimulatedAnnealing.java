@@ -5,6 +5,9 @@ import TSP.models.City;
 import TSP.optimizators.TSP2Opt;
 import TSP.utility.Utilities;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Arrays;
@@ -16,11 +19,24 @@ public class TSPSimulatedAnnealing {
 
     //private static long SEED;
     private Random rand;
+    private long SEED;
+    private int temp;
+    private int initTemp;
+    private double alpha;
 
-    public City[] simulatedAnnealing(City[] cities, double temp, double alpha, Random random) {
+    public City[] simulatedAnnealing(City[] cities, long SEED) {
         City[] current = cities;
         City[] best = current;
-        rand = random;
+        //this.SEED = SEED;
+        this.SEED = 1555863230084L;
+        rand = new Random(this.SEED);
+        //rand = random;
+
+        //temp = rand.nextInt(150 - 100 + 1) + 100;
+        //alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
+        temp  = 140;
+        alpha = 0.974141;
+        initTemp = temp;
 
         int bestL = Utilities.getTotalDistance(best);
         int currentL;
@@ -28,7 +44,7 @@ public class TSPSimulatedAnnealing {
         int delta;
 
         Instant start = Instant.now();
-        Duration max = Duration.ofSeconds(170);
+        Duration max = Duration.ofSeconds(174);
 
         int a = 0;
         while (start.plus(max).isAfter(Instant.now())) {
@@ -64,6 +80,7 @@ public class TSPSimulatedAnnealing {
         }
         System.out.println("Passati 3 min, fine simulated");
         System.out.println("Cicli: " + a);
+        printInfo(best, this.SEED, alpha, initTemp);
         return best;
     }
 
@@ -145,6 +162,31 @@ public class TSPSimulatedAnnealing {
             }
         }
         return false;
+    }
+
+    private void printInfo(City[] simulatedAnnealingTour, long SEED, double alpha, int temperature) {
+        System.out.println("Best distance after simulated annealing: " + Utilities.getTotalDistance(simulatedAnnealingTour));
+        System.out.println("Error: " + Utilities.getError(Utilities.getTotalDistance(simulatedAnnealingTour)) + "%");
+        System.out.println("Temperature: " + temperature);
+        System.out.println("Alpha: " + alpha);
+        System.out.println("SEED: " + SEED);
+
+        FileWriter fileWriter = null;
+        try {
+            fileWriter = new FileWriter(Utilities.FILENAME, true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        PrintWriter printWriter = new PrintWriter(fileWriter);
+        printWriter.printf("File: %s \n", Utilities.fileUsed);
+        printWriter.printf("Best: %d \n", Utilities.bestUsed);
+        printWriter.printf("Best distance calculated: %d \n", Utilities.getTotalDistance(simulatedAnnealingTour));
+        printWriter.printf("Error is: %f%s \n", Utilities.getError(Utilities.getTotalDistance(simulatedAnnealingTour)), "%");
+        printWriter.printf("Temperature: %d \n", temperature);
+        printWriter.printf("Alpha: %f \n", alpha);
+        printWriter.printf("SEED: %d \n", SEED);
+        printWriter.printf("\n");
+        printWriter.close();
     }
 
 }
