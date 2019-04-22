@@ -17,8 +17,9 @@ public class TSPCandidateList {
 
     public void nearestCities() {
         int[][] tmp = distances.clone();
-        for (int i = 0; i < tmp.length; i++)
+        for (int i = 0; i < tmp.length; i++) {
             tmp[i] = tmp[i].clone();
+        }
 
         for (City c : cities) {
             int index;

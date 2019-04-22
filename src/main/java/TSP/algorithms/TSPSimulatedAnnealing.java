@@ -28,14 +28,13 @@ public class TSPSimulatedAnnealing {
         City[] current = cities;
         City[] best = current;
         //this.SEED = SEED;
-        this.SEED = 1555863230084L;
+        this.SEED = 1555920626686l;
         rand = new Random(this.SEED);
-        //rand = random;
 
         //temp = rand.nextInt(150 - 100 + 1) + 100;
         //alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
-        temp  = 140;
-        alpha = 0.974141;
+        temp  = 142;
+        alpha = 0.988663;
         initTemp = temp;
 
         int bestL = Utilities.getTotalDistance(best);
@@ -80,7 +79,11 @@ public class TSPSimulatedAnnealing {
         }
         System.out.println("Passati 3 min, fine simulated");
         System.out.println("Cicli: " + a);
-        printInfo(best, this.SEED, alpha, initTemp);
+
+
+        printInfo(best);
+
+        hasDuplicateCities(best);
         return best;
     }
 
@@ -164,12 +167,12 @@ public class TSPSimulatedAnnealing {
         return false;
     }
 
-    private void printInfo(City[] simulatedAnnealingTour, long SEED, double alpha, int temperature) {
+    private void printInfo(City[] simulatedAnnealingTour) {
         System.out.println("Best distance after simulated annealing: " + Utilities.getTotalDistance(simulatedAnnealingTour));
         System.out.println("Error: " + Utilities.getError(Utilities.getTotalDistance(simulatedAnnealingTour)) + "%");
-        System.out.println("Temperature: " + temperature);
-        System.out.println("Alpha: " + alpha);
-        System.out.println("SEED: " + SEED);
+        System.out.println("Temperature: " + this.initTemp);
+        System.out.println("Alpha: " + this.alpha);
+        System.out.println("SEED: " + this.SEED);
 
         FileWriter fileWriter = null;
         try {
@@ -182,9 +185,9 @@ public class TSPSimulatedAnnealing {
         printWriter.printf("Best: %d \n", Utilities.bestUsed);
         printWriter.printf("Best distance calculated: %d \n", Utilities.getTotalDistance(simulatedAnnealingTour));
         printWriter.printf("Error is: %f%s \n", Utilities.getError(Utilities.getTotalDistance(simulatedAnnealingTour)), "%");
-        printWriter.printf("Temperature: %d \n", temperature);
-        printWriter.printf("Alpha: %f \n", alpha);
-        printWriter.printf("SEED: %d \n", SEED);
+        printWriter.printf("Temperature: %d \n", this.initTemp);
+        printWriter.printf("Alpha: %f \n", this.alpha);
+        printWriter.printf("SEED: %d \n", this.SEED);
         printWriter.printf("\n");
         printWriter.close();
     }

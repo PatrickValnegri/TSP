@@ -67,6 +67,8 @@ public class TSPNearestNeighbour {
         }
 
         //totCost += distances[nextCity][firstCity];
+
+        //reset delle città visitate
         for (City c : cities) {
             c.setVisited(false);
         }
