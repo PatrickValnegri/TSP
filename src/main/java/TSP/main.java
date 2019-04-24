@@ -82,10 +82,10 @@ public class main {
             long SEED;
 
             int cont = 0;
-            while (cont < 2) {
+            while (cont < 3) {
 
-                //SEED = System.currentTimeMillis();
-                SEED = 1556089269554l;
+                SEED = System.currentTimeMillis();
+                //SEED = 1556094107449l;
                 Random rand = new Random(SEED);
 
                 tspSimulatedAnnealing.simulatedAnnealing(twoOptTour, SEED, rand);

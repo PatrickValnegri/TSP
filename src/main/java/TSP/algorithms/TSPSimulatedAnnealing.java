@@ -26,19 +26,15 @@ public class TSPSimulatedAnnealing {
     public City[] simulatedAnnealing(City[] cities, long SEED, Random random) {
         City[] current = cities;
         City[] best = current;
-        //this.SEED = SEED;
-        this.SEED = 1556089269554l;
         Random rand = random;
 
-        //Error: 0.6408025203709158%
-        //Temperature: 142
-        //Alpha: 0.988663
-        //SEED: 1556089269554
+        this.SEED = SEED;
+        temp = rand.nextInt(150 - 100 + 1) + 100;
+        alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
 
-        //temp = rand.nextInt(150 - 100 + 1) + 100;
-        //alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
-        temp  = 142;
-        alpha = 0.988663;
+        //temp  = 100;
+        //alpha = 0.902039;
+
         initTemp = temp;
 
         int bestL = Utilities.getTotalDistance(best);
