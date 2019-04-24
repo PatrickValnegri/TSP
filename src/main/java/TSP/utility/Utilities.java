@@ -26,8 +26,8 @@ public class Utilities {
     final static int best9 = 8806;
     final static int best10 = 224094;
 
-    public final static String fileUsed = file9;
-    public final static int bestUsed = best9;
+    public final static String fileUsed = file4;
+    public final static int bestUsed = best4;
 
     public static final String FILENAME = "C:\\Users\\pvaln\\OneDrive\\Documenti\\SUPSI\\TerzoAnno\\SecondoSemestre\\Algoritmi\\Coppa\\risultati.txt";
 

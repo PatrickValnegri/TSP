@@ -78,20 +78,33 @@ public class main {
             System.out.println("Error: " + Utilities.getError(Utilities.getTotalDistance(twoOptTour)) + "%");
 
             //TSP simlated annealing
-            TSPSimulatedAnnealing tspSimulatedAnnealing = new TSPSimulatedAnnealing();
+            TSPSimulatedAnnealing tspSimulatedAnnealing;
             long SEED;
+            double temp;
+            double alpha;
 
             int cont = 0;
             while (cont < 3) {
 
                 SEED = System.currentTimeMillis();
-                //SEED = 1556094107449l;
-                Random rand = new Random(SEED);
+                //SEED = 1556145362740l;
+                Random rand = new Random();
+                rand.setSeed(SEED);
 
-                tspSimulatedAnnealing.simulatedAnnealing(twoOptTour, SEED, rand);
+                temp = rand.nextInt(150 - 100 + 1) + 100;
+                alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
+
+                //Best distance after simulated annealing: 8857
+                //Error: 0.5791505791505791%
+                //Temperature: 148.0
+                //Alpha: 0.9054248337075167
+                //SEED: 1556145362740
+
+                tspSimulatedAnnealing = new TSPSimulatedAnnealing(SEED, temp, alpha, rand);
+                tspSimulatedAnnealing.simulatedAnnealing(twoOptTour);
 
                 cont++;
-                }
+            }
         }
     }
 }
