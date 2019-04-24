@@ -18,18 +18,22 @@ import java.util.Set;
 public class TSPSimulatedAnnealing {
 
     //private static long SEED;
-    private Random rand;
     private long SEED;
     private int temp;
     private int initTemp;
     private double alpha;
 
-    public City[] simulatedAnnealing(City[] cities, long SEED) {
+    public City[] simulatedAnnealing(City[] cities, long SEED, Random random) {
         City[] current = cities;
         City[] best = current;
         //this.SEED = SEED;
-        this.SEED = 1555920626686l;
-        rand = new Random(this.SEED);
+        this.SEED = 1556089269554l;
+        Random rand = random;
+
+        //Error: 0.6408025203709158%
+        //Temperature: 142
+        //Alpha: 0.988663
+        //SEED: 1556089269554
 
         //temp = rand.nextInt(150 - 100 + 1) + 100;
         //alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
@@ -51,7 +55,7 @@ public class TSPSimulatedAnnealing {
             for (int i = 0; i < 100; i++) {
                 int[] distanceBackup = main.positions.clone();
                 a++;
-                City[] next = doubleBridge(current);
+                City[] next = doubleBridge(current, rand);
                 City[] candidate = TSP2Opt.twoOpt(next);
 
                 currentL = Utilities.getTotalDistance(current);
@@ -93,7 +97,8 @@ public class TSPSimulatedAnnealing {
         return x;
     }
 
-    private City[] doubleBridge(City[] tour) {
+    private City[] doubleBridge(City[] tour,Random random) {
+        Random rand = random;
         int[] randPos = new int[4];
 
         do {

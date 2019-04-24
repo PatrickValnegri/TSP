@@ -82,20 +82,13 @@ public class main {
             long SEED;
 
             int cont = 0;
-            while (cont < 3) {
+            while (cont < 2) {
 
-                SEED = System.currentTimeMillis();
+                //SEED = System.currentTimeMillis();
+                SEED = 1556089269554l;
+                Random rand = new Random(SEED);
 
-                //SEED = 1555920626686l;
-                //Random rand = new Random(SEED);
-
-                //temperature = rand.nextInt(150 - 100 + 1) + 100;
-                //alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
-                //temperature = 119;
-                //alpha = 0.991862;
-
-                //City[] simulatedAnnealingTour = tspSimulatedAnnealing.simulatedAnnealing(twoOptTour, SEED);
-                tspSimulatedAnnealing.simulatedAnnealing(twoOptTour, SEED);
+                tspSimulatedAnnealing.simulatedAnnealing(twoOptTour, SEED, rand);
 
                 cont++;
                 }
