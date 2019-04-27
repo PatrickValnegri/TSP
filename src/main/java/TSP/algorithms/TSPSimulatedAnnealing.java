@@ -91,11 +91,11 @@ public class TSPSimulatedAnnealing {
         }
         System.out.println("Passati 3 min, fine simulated");
         System.out.println("Cicli: " + a);
-
+        System.out.println("Duplicati? " + hasDuplicateCities(best));
 
         printInfo(best, SEED, alpha, initTemp);
 
-        hasDuplicateCities(best);
+
         return best;
     }
 
@@ -194,8 +194,8 @@ public class TSPSimulatedAnnealing {
             e.printStackTrace();
         }
         PrintWriter printWriter = new PrintWriter(fileWriter);
-        printWriter.printf("File: %s \n", Utilities.fileUsed);
-        printWriter.printf("Best: %d \n", Utilities.bestUsed);
+        printWriter.printf("File: %s \n", Utilities.fileTSP);
+        printWriter.printf("Best: %d \n", Utilities.bestKnown);
         printWriter.printf("Best distance calculated: %d \n", Utilities.getTotalDistance(simulatedAnnealingTour));
         printWriter.printf("Error is: %f%s \n", Utilities.getError(Utilities.getTotalDistance(simulatedAnnealingTour)), "%");
         printWriter.printf("Temperature: %f \n", initTemp);

@@ -10,11 +10,7 @@ import TSP.utility.FileReader;
 import TSP.utility.TSPMatrixDistances;
 import TSP.utility.Utilities;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.Random;
 
 public class main {
@@ -22,11 +18,13 @@ public class main {
     //Distances between cities
     // TODO spostare nella classe utilities
     public static int[][] distances;
+
     public static int[][] getDistances() {
         return distances;
     }
 
     public static int[] positions;
+
     public static void setPositions(int[] positions) {
         main.positions = positions;
     }
@@ -38,7 +36,7 @@ public class main {
         //TSP reader
         FileReader fileReader = new FileReader();
         ClassLoader classloader = Thread.currentThread().getContextClassLoader();
-        cities = fileReader.readFile(classloader.getResourceAsStream(Utilities.fileUsed));
+        cities = fileReader.readFile(classloader.getResourceAsStream(Utilities.fileTSP));
 
         if (cities != null) {
             //TSP Minimum Spanning tree
@@ -50,7 +48,7 @@ public class main {
             distances = TSPMatrixDistances.getMatrixDistances(cityArray);
 
             //Array cities position support
-            positions = new  int[cityArray.length];
+            positions = new int[cityArray.length];
             for (int i = 0; i < cityArray.length; i++) {
                 positions[cityArray[i].getId()] = i;
             }
@@ -84,10 +82,10 @@ public class main {
             double alpha;
 
             int cont = 0;
-            while (cont < 3) {
+            while (cont < 1) {
 
                 SEED = System.currentTimeMillis();
-                //SEED = 1556145362740l;
+                //SEED = 1556182944483l;
                 Random rand = new Random();
                 rand.setSeed(SEED);
 
@@ -101,10 +99,14 @@ public class main {
                 //SEED: 1556145362740
 
                 tspSimulatedAnnealing = new TSPSimulatedAnnealing(SEED, temp, alpha, rand);
-                tspSimulatedAnnealing.simulatedAnnealing(twoOptTour);
+                City[] simulatedAnnealingTour = tspSimulatedAnnealing.simulatedAnnealing(twoOptTour);
 
+                //Solution solution = new Solution(Utilities.fileName, SEED, simulatedAnnealingTour);
+                Utilities.writeSolutions(Utilities.fileName, Utilities.bestKnown, simulatedAnnealingTour);
                 cont++;
             }
+
+
         }
     }
 }
