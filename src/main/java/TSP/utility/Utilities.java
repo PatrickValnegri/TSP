@@ -1,6 +1,5 @@
 package TSP.utility;
 
-import TSP.main;
 import TSP.models.City;
 import TSP.models.Solver;
 
@@ -48,7 +47,9 @@ public class Utilities {
     public static final String FILENAME = "C:\\Users\\pvaln\\OneDrive\\Documenti\\SUPSI\\TerzoAnno\\SecondoSemestre\\Algoritmi\\Coppa\\risultati.txt";
     public static final String DIRPATH = "C:\\Users\\pvaln\\OneDrive\\Documenti\\SUPSI\\TerzoAnno\\SecondoSemestre\\Algoritmi\\Progetto\\Soluzioni";
 
-    public static final String RELPATH = "..\\TSP\\src\\main\\resources\\solutions";
+    public static final String RELPATHWINDOWS = "..\\TSP\\src\\main\\resources\\solutions";
+    public static final String RELPATHLINUX = "../TSP/src/main/resources/solutions/";
+
 
     public static double getError(int approx, int bestKnown) {
         double sub = approx - bestKnown;
@@ -93,7 +94,8 @@ public class Utilities {
 
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(RELPATH + "\\" + fileName + ".opt.tour");
+            fileWriter = new FileWriter(RELPATHLINUX + fileName + ".opt.tour");
+            fileWriter = new FileWriter(RELPATHWINDOWS + "\\" + fileName + ".opt.tour");
             fileWriter.write(sb.toString());
             fileWriter.close();
 
