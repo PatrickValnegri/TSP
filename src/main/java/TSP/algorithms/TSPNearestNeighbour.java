@@ -2,12 +2,18 @@ package TSP.algorithms;
 
 import TSP.main;
 import TSP.models.City;
+import TSP.models.Solver;
 
 public class TSPNearestNeighbour {
 
     private int numberOfNodes;
+    private Solver solver;
 
-    public City[] nearestNeighbor(int distances[][], City[] cities) {
+    public TSPNearestNeighbour(Solver solver) {
+        this.solver = solver;
+    }
+
+    public City[] nearestNeighbor(City[] cities) {
         numberOfNodes = cities.length;
         City nn[] = new City[numberOfNodes];
         int k = 0;
@@ -24,7 +30,7 @@ public class TSPNearestNeighbour {
         int count = 0;
         int totCost = 0;
 
-        System.out.println("First city: " + cities[firstCity].getId() + "\t");
+        //System.out.println("First city: " + cities[firstCity].getId() + "\t");
 
         while (count < numberOfNodes) {
 
@@ -40,8 +46,8 @@ public class TSPNearestNeighbour {
                 if (i != element && !cities[i].isVisited()) {
 
                     //se la distanza minima è maggiore della distanza con l'attuale città la setto come nuova minima
-                    if (min > distances[element][i]) {
-                        min = distances[element][i];
+                    if (min > solver.getDistances()[element][i]) {
+                        min = solver.getDistances()[element][i];
 
                         //prossima città da visitare
                         nextCity = i;
@@ -52,7 +58,7 @@ public class TSPNearestNeighbour {
             }
 
             if (minFlag) {
-                System.out.println(nextCity + "\t");
+                //System.out.println(nextCity + "\t");
                 cities[nextCity].setVisited(true);
                 totCost += min;
 
@@ -75,7 +81,7 @@ public class TSPNearestNeighbour {
 
         //Aggiorno posizioni città dopo nearest neighbor
         for (int i = 0; i < cities.length; i++)
-            main.positions[nn[i].getId()] = i;
+            solver.getPositions()[nn[i].getId()] = i;
 
         return nn;
     }

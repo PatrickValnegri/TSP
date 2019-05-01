@@ -2,6 +2,7 @@ package TSP.utility;
 
 import TSP.main;
 import TSP.models.City;
+import TSP.models.Solver;
 
 import java.io.FileWriter;
 import java.io.IOException;
@@ -40,20 +41,20 @@ public class Utilities {
     final static int best9 = 8806;
     final static int best10 = 224094;
 
-    public final static String fileTSP = fileTSP2;
-    public final static String fileName = fileName2;
-    public final static int bestKnown = best2;
+    //public final static String fileTSP = fileTSP2;
+    //public final static String fileName = fileName2;
+    //public final static int bestKnown = best2;
 
     public static final String FILENAME = "C:\\Users\\pvaln\\OneDrive\\Documenti\\SUPSI\\TerzoAnno\\SecondoSemestre\\Algoritmi\\Coppa\\risultati.txt";
     public static final String DIRPATH = "C:\\Users\\pvaln\\OneDrive\\Documenti\\SUPSI\\TerzoAnno\\SecondoSemestre\\Algoritmi\\Progetto\\Soluzioni";
 
-    public static double getError(int approx) {
+    public static double getError(int approx, int bestKnown) {
         double sub = approx - bestKnown;
         double div = sub / bestKnown;
         return div * 100;
     }
 
-    public static int getTotalDistance(City[] cities) {
+    public static int getTotalDistance(City[] cities, Solver solver) {
         int distance = 0;
         for (int i = 0; i < cities.length; i++) {
             City starting = cities[i];
@@ -63,15 +64,15 @@ public class Utilities {
             } else {
                 destination = cities[0];
             }
-            distance += getDistanceBetweenCities(starting, destination);
+            distance += getDistanceBetweenCities(starting, destination, solver);
             //distance += starting.getDistanceCity(destination);
         }
         return distance;
     }
 
 
-    public static int getDistanceBetweenCities(City a, City b) {
-        int[][] distances = main.getDistances();
+    public static int getDistanceBetweenCities(City a, City b, Solver solver) {
+        int[][] distances = solver.getDistances();
         return distances[a.getId()][b.getId()];
     }
 

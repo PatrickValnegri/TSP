@@ -2,6 +2,7 @@ package TSP.optimizators;
 
 import TSP.main;
 import TSP.models.City;
+import TSP.models.Solver;
 import TSP.utility.Utilities;
 
 import java.util.*;
@@ -9,13 +10,18 @@ import java.util.*;
 public class TSP2Opt {
 
     private static int numberOfNodes;
+    private Solver solver;
 
-    public static int getGain(City[] tour, int i, int j) {
+    public TSP2Opt(Solver solver) {
+        this.solver = solver;
+    }
+
+    public int getGain(City[] tour, int i, int j) {
         int afteri = i == tour.length - 1 ? 0 : i + 1;
         int afterj = j == tour.length - 1 ? 0 : j + 1;
 
-        int dist1 = (Utilities.getDistanceBetweenCities(tour[i], tour[afteri]) + Utilities.getDistanceBetweenCities(tour[j], tour[afterj]));
-        int dist2 = (Utilities.getDistanceBetweenCities(tour[i], tour[j]) + Utilities.getDistanceBetweenCities(tour[afteri], tour[afterj]));
+        int dist1 = (Utilities.getDistanceBetweenCities(tour[i], tour[afteri], solver) + Utilities.getDistanceBetweenCities(tour[j], tour[afterj], solver));
+        int dist2 = (Utilities.getDistanceBetweenCities(tour[i], tour[j], solver) + Utilities.getDistanceBetweenCities(tour[afteri], tour[afterj], solver));
 
         //int dist1 = (tour[i].getDistanceCity(tour[a]) + tour[j].getDistanceCity(tour[b]));
         //int dist2 = (tour[a].getDistanceCity(tour[j]) + tour[i].getDistanceCity(tour[b]));
@@ -23,7 +29,7 @@ public class TSP2Opt {
         return dist2 - dist1;
     }
 
-    public static City[] twoOpt(City[] cities) {
+    public City[] twoOpt(City[] cities) {
 
         numberOfNodes = cities.length;
         int bestGain = -1;
@@ -42,7 +48,7 @@ public class TSP2Opt {
                 Iterator<Integer> iterator = cities[i].getCandidateList().iterator();
 
                 while (iterator.hasNext()) {
-                    int j = main.positions[iterator.next()];
+                    int j = solver.getPositions()[iterator.next()];
 
                     if (j != i) {
                         gain = getGain(bestTour, i, j);
@@ -65,7 +71,7 @@ public class TSP2Opt {
         return bestTour;
     }
 
-    public static City[] swap(City[] cities, int i, int j) {
+    public City[] swap(City[] cities, int i, int j) {
         //da 0 a i
         //i -> j => j -> i + 1
         //i + 1 -> j + 1
@@ -83,8 +89,8 @@ public class TSP2Opt {
             City city = cities[i + 1 + index];
             cities[i + 1 + index] = cities[j - index];
             cities[j - index] = city;
-            main.positions[cities[i + 1 + index].getId()] = i + 1 + index;
-            main.positions[cities[j - index].getId()] = j - index;
+            solver.getPositions()[cities[i + 1 + index].getId()] = i + 1 + index;
+            solver.getPositions()[cities[j - index].getId()] = j - index;
         }
 
         if (swapped) {
@@ -95,8 +101,8 @@ public class TSP2Opt {
                 City city = cities[k];
                 cities[k] = cities[len - k - 1];
                 cities[len - k - 1] = city;
-                main.positions[cities[k].getId()] = k;
-                main.positions[cities[len - k - 1].getId()] = len-k-1;
+                solver.getPositions()[cities[k].getId()] = k;
+                solver.getPositions()[cities[len - k - 1].getId()] = len-k-1;
             }
         }
 

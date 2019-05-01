@@ -2,6 +2,7 @@ package TSP.algorithms;
 
 import TSP.main;
 import TSP.models.City;
+import TSP.models.Solver;
 
 //15 nearest cities
 public class TSPCandidateList {
@@ -9,10 +10,12 @@ public class TSPCandidateList {
     private int[][] distances;
     private City[] cities;
     private static final int N = 15;
+    private Solver solver;
 
-    public TSPCandidateList(City[] cities) {
-        this.distances = main.getDistances();
+    public TSPCandidateList(City[] cities, Solver solver) {
+        this.distances = solver.getDistances();
         this.cities = cities;
+        this.solver = solver;
     }
 
     public void nearestCities() {

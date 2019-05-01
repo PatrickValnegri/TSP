@@ -2,7 +2,7 @@ package TSP.utility;
 
 import TSP.models.City;
 
-public class TSPMatrixDistances {
+public class MatrixDistances {
 
     public static int[][] getMatrixDistances(City[] cities) {
         int len = cities.length;

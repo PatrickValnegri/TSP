@@ -29,8 +29,10 @@ public class FileReader {
                 //TODO togliere spazi prima di dividere la riga
                 String[] parts = line.trim().split(" ");
 
-                if (parts[0].contains("EOF"))
+                if (parts[0].contains("EOF")) {
+                    id = 0;
                     return cities;
+                }
 
                 if (parts.length == 3 && parts[0].matches("^[0-9]*$")) {
                     //System.out.println("TSP.models.City number: " + parts[0] + " lat: " + parts[1] + " long: " + parts[2]);

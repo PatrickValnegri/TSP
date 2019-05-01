@@ -1,7 +1,7 @@
 package TSP.algorithms;
 
-import TSP.main;
 import TSP.models.City;
+import TSP.models.Solver;
 import TSP.optimizators.TSP2Opt;
 import TSP.utility.Utilities;
 
@@ -23,13 +23,19 @@ public class TSPSimulatedAnnealing {
     private double initTemp;
     private double alpha;
     private Random random;
+    private String fileTSP;
+    private int bestKnown;
+    private Solver solver;
 
-    public TSPSimulatedAnnealing(long SEED, double temp, double alpha, Random random) {
+    public TSPSimulatedAnnealing(long SEED, double temp, double alpha, Random random, String fileTSP, int bestKnown, Solver solver) {
         this.SEED = SEED;
         this.temp = temp;
         this.alpha = alpha;
         this.random = random;
         this.initTemp = temp;
+        this.fileTSP = fileTSP;
+        this.bestKnown = bestKnown;
+        this.solver = solver;
     }
 
     public City[] simulatedAnnealing(City[] cities) {
@@ -37,18 +43,9 @@ public class TSPSimulatedAnnealing {
         City[] best = current;
         Random rand = random;
 
-        //temp = rand.nextInt(150 - 100 + 1) + 100;
-        //alpha = 0.90 + (1 - 0.9) * rand.nextDouble();
-
-        //Best distance after simulated annealing: 8856
-        //Error: 0.5677946854417443%
-        //Temperature: 150
-        //Alpha: 0.9637245980190913
-        //SEED: 1556101793451
-
         initTemp = temp;
 
-        int bestL = Utilities.getTotalDistance(best);
+        int bestL = Utilities.getTotalDistance(best, solver);
         int currentL;
         int candidateL;
         int delta;
@@ -58,15 +55,16 @@ public class TSPSimulatedAnnealing {
 
         int a = 0;
         while (start.plus(max).isAfter(Instant.now())) {
+            TSP2Opt tsp2Opt = new TSP2Opt(solver);
 
             for (int i = 0; i < 100; i++) {
-                int[] distanceBackup = main.positions.clone();
+                int[] distanceBackup = solver.getPositions().clone();
                 a++;
                 City[] next = doubleBridge(current, rand);
-                City[] candidate = TSP2Opt.twoOpt(next);
+                City[] candidate = tsp2Opt.twoOpt(next);
 
-                currentL = Utilities.getTotalDistance(current);
-                candidateL = Utilities.getTotalDistance(candidate);
+                currentL = Utilities.getTotalDistance(current, solver);
+                candidateL = Utilities.getTotalDistance(candidate, solver);
                 delta = candidateL - currentL;
 
                 if (delta < 0) {
@@ -82,25 +80,23 @@ public class TSPSimulatedAnnealing {
                     current = candidate.clone();
                 } else {
                     //lo scambio del 2opt e doublebridge non ha portato guadagni ripristino posizioni
-                    main.setPositions(distanceBackup);
+                    solver.setPositions(distanceBackup);
                 }
 
             }
             temp *= alpha;
 
         }
-        System.out.println("Passati 3 min, fine simulated");
-        System.out.println("Cicli: " + a);
-        System.out.println("Duplicati? " + hasDuplicateCities(best));
+        //System.out.println("Passati 3 min, fine simulated");
+        //System.out.println("Cicli: " + a);
+        //System.out.println("Duplicati? " + hasDuplicateCities(best));
 
-        printInfo(best, SEED, alpha, initTemp);
-
-
+        printInfo(best, SEED, alpha, initTemp, fileTSP,bestKnown);
         return best;
     }
 
     private double getProbability(City[] candidate, City[] current, double temp) {
-        double delta = (double) (Utilities.getTotalDistance(candidate) - Utilities.getTotalDistance(current));
+        double delta = (double) (Utilities.getTotalDistance(candidate, solver) - Utilities.getTotalDistance(current, solver));
         double x = Math.exp(-delta / temp);
         return x;
     }
@@ -125,31 +121,31 @@ public class TSPSimulatedAnnealing {
 
         for (int i = 0; i <= a; i++) {
             doubleBridge[index] = tour[i];
-            main.positions[doubleBridge[index].getId()] = index;
+            solver.getPositions()[doubleBridge[index].getId()] = index;
             index++;
         }
 
         for (int i = c + 1; i <= d; i++) {
             doubleBridge[index] = tour[i];
-            main.positions[doubleBridge[index].getId()] = index;
+            solver.getPositions()[doubleBridge[index].getId()] = index;
             index++;
         }
 
         for (int i = b + 1; i <= c; i++) {
             doubleBridge[index] = tour[i];
-            main.positions[doubleBridge[index].getId()] = index;
+            solver.getPositions()[doubleBridge[index].getId()] = index;
             index++;
         }
 
         for (int i = a + 1; i <= b; i++) {
             doubleBridge[index] = tour[i];
-            main.positions[doubleBridge[index].getId()] = index;
+            solver.getPositions()[doubleBridge[index].getId()] = index;
             index++;
         }
 
         for (int i = d + 1; i < tour.length; i++) {
             doubleBridge[index] = tour[i];
-            main.positions[doubleBridge[index].getId()] = index;
+            solver.getPositions()[doubleBridge[index].getId()] = index;
             index++;
         }
 
@@ -180,12 +176,12 @@ public class TSPSimulatedAnnealing {
         return false;
     }
 
-    private void printInfo(City[] simulatedAnnealingTour, long SEED, double alpha, double initTemp) {
-        System.out.println("Best distance after simulated annealing: " + Utilities.getTotalDistance(simulatedAnnealingTour));
-        System.out.println("Error: " + Utilities.getError(Utilities.getTotalDistance(simulatedAnnealingTour)) + "%");
-        System.out.println("Temperature: " + initTemp);
-        System.out.println("Alpha: " + alpha);
-        System.out.println("SEED: " + SEED);
+    private void printInfo(City[] simulatedAnnealingTour, long SEED, double alpha, double initTemp, String fileTSP,int bestKnown) {
+        System.out.println("Best: " + Utilities.getTotalDistance(simulatedAnnealingTour, solver));
+        System.out.println("Error: " + Utilities.getError(Utilities.getTotalDistance(simulatedAnnealingTour, solver), bestKnown) + "%");
+        //System.out.println("Temperature: " + initTemp);
+        //System.out.println("Alpha: " + alpha);
+        //System.out.println("SEED: " + SEED);
 
         FileWriter fileWriter = null;
         try {
@@ -194,10 +190,10 @@ public class TSPSimulatedAnnealing {
             e.printStackTrace();
         }
         PrintWriter printWriter = new PrintWriter(fileWriter);
-        printWriter.printf("File: %s \n", Utilities.fileTSP);
-        printWriter.printf("Best: %d \n", Utilities.bestKnown);
-        printWriter.printf("Best distance calculated: %d \n", Utilities.getTotalDistance(simulatedAnnealingTour));
-        printWriter.printf("Error is: %f%s \n", Utilities.getError(Utilities.getTotalDistance(simulatedAnnealingTour)), "%");
+        printWriter.printf("File: %s \n", fileTSP);
+        printWriter.printf("Best: %d \n", bestKnown);
+        printWriter.printf("Best distance calculated: %d \n", Utilities.getTotalDistance(simulatedAnnealingTour, solver));
+        printWriter.printf("Error is: %f%s \n", Utilities.getError(Utilities.getTotalDistance(simulatedAnnealingTour, solver), bestKnown), "%");
         printWriter.printf("Temperature: %f \n", initTemp);
         printWriter.printf("Alpha: %f \n", alpha);
         printWriter.printf("SEED: %d \n", SEED);

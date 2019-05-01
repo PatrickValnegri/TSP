@@ -2,6 +2,7 @@ package TSP.algorithms;
 
 import TSP.main;
 import TSP.models.City;
+import TSP.models.Solver;
 
 import java.util.ArrayList;
 
@@ -9,10 +10,12 @@ public class TSPMinimumSpanningTree {
 
     private int[][] distances;
     private City[] cities;
+    private Solver solver;
 
-    public TSPMinimumSpanningTree(City[] cities) {
-        this.distances = main.getDistances();
+    public TSPMinimumSpanningTree(City[] cities, Solver solver) {
         this.cities = cities;
+        this.solver = solver;
+        this.distances = solver.getDistances();
     }
 
     public void MST() {
