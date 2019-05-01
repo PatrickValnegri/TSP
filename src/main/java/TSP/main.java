@@ -1,19 +1,6 @@
 package TSP;
 
-import TSP.algorithms.TSPCandidateList;
-import TSP.algorithms.TSPMinimumSpanningTree;
-import TSP.algorithms.TSPNearestNeighbour;
-import TSP.algorithms.TSPSimulatedAnnealing;
-import TSP.models.City;
 import TSP.models.Solver;
-import TSP.optimizators.TSP2Opt;
-import TSP.utility.FileReader;
-import TSP.utility.MatrixDistances;
-import TSP.utility.Utilities;
-import javafx.scene.effect.Light;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class main {
 
