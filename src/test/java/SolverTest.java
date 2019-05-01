@@ -3,7 +3,6 @@ import org.junit.Test;
 
 public class SolverTest {
 
-
     @Test(timeout = 181000)
     public void ch130() {
         Solver solver = new Solver();

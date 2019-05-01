@@ -48,6 +48,8 @@ public class Utilities {
     public static final String FILENAME = "C:\\Users\\pvaln\\OneDrive\\Documenti\\SUPSI\\TerzoAnno\\SecondoSemestre\\Algoritmi\\Coppa\\risultati.txt";
     public static final String DIRPATH = "C:\\Users\\pvaln\\OneDrive\\Documenti\\SUPSI\\TerzoAnno\\SecondoSemestre\\Algoritmi\\Progetto\\Soluzioni";
 
+    public static final String RELPATH = "..\\TSP\\src\\main\\resources\\solutions";
+
     public static double getError(int approx, int bestKnown) {
         double sub = approx - bestKnown;
         double div = sub / bestKnown;
@@ -91,7 +93,7 @@ public class Utilities {
 
         FileWriter fileWriter = null;
         try {
-            fileWriter = new FileWriter(DIRPATH + "\\" + fileName + ".opt.tour");
+            fileWriter = new FileWriter(RELPATH + "\\" + fileName + ".opt.tour");
             fileWriter.write(sb.toString());
             fileWriter.close();
 
