@@ -95,7 +95,7 @@ public class Utilities {
         FileWriter fileWriter = null;
         try {
             fileWriter = new FileWriter(RELPATHLINUX + fileName + ".opt.tour");
-            fileWriter = new FileWriter(RELPATHWINDOWS + "\\" + fileName + ".opt.tour");
+            //fileWriter = new FileWriter(RELPATHWINDOWS + "\\" + fileName + ".opt.tour");
             fileWriter.write(sb.toString());
             fileWriter.close();
 
